@@ -29,16 +29,18 @@ function getState() {
 
 
 const init = () => {
- // return createSmartappDebugger({
-   //  token,
- // initPhrase,
- //getState
-  //})
+ return createSmartappDebugger({
+     token,
+ initPhrase,
+ getState
+  })
   return createAssistant({getState});
+  
 }
+let assistant = init();
 const App = () => {
    
-let assistant = init();
+
 
 assistant.on("data", (event) => {
   console.log(event);
