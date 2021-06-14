@@ -6,10 +6,61 @@ import Question from './components/Question';
 import End from './components/End';
 import Modal from './components/Modal';
 import quizData from './data/quiz.json';
-
+import {createSmartappDebugger, createAssistant} from '@sberdevices/assistant-client'
+let initPhrase = 'Начать тест';
+let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYTJkZTI2ZDJjZGQ0MmRjN2Q0NmIxZjM3YzJjZmY5NzBhOTRmODQ0MmI0Mzk3MWQ5YjY5M2NhNTg4MjAwM2JiNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMzc3NzI0MywiaWF0IjoxNjIzNjkwODMzLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiODg1OGY0ZGItMDgwZS00NDllLWJhMTQtMmFjZjE3MmE1ODYzIiwic2lkIjoiOTY2MDlmYmEtMjZkYS00ODY2LWE3YTYtYjM4MWVhN2Y5MDEzIn0.VkHY17rNm_912GYgx26ZhEnbIXwcepYU3L_Td2px1plc_E5OkM_Xcj1ikdoiFBPBIh36kCPRBsDI75Oz6zF5RpNHjUKr1vSRW0oFBqScUNY2nAKr2ujs7L0Ek91Ky3p4R7nRrs3IR81ZTw84iTfzBhxPX2WKI3ougVKbdVXDXcIklIhhA_R28wl-gOSX3B5ya0Cpog3btoQtMS2u9AqC-Lz8PsASZXfd0M73kZrZVTViCUvuEW3L5ekeeLn8jyL0UTyYhmnzTb6xKaPfNlnmnwS8jRrQo1zX_qHlQqRqFLdPt_QGx-POn9Wly_NiE8EOVwGEIegHpon2kZZMzAFgwUwgiIAV9Zwv-bWkQ99QQxR4pXComNUQqbzQq-LLYLb9fW20LmQVomS5Da1lvCodhal-zC27-xwj1dvafFYSJ80uaMss9Z3bIIa2Tol-ZEzht7fZpGjmJXm2ZrGEeAEaW8Fa2MnxHz3dvTGnnbPqikc6btL1D4usqXQeqpr4eLtPJhlOoOMKaeaMi3qIg1XY7Amy571aWDLGig44Yc8s45jGUCwPcl4kSe11DHRxC0SN5h7sWurt9uaRbvd9yRzkJ75OKFfcDm1kxIYfGDDLTqSerPV1mCABsDwdcPmGNArM88sadRZOGNprkB9lWPCvoJEzkAyTJ-UucZA2EzUlWGo'
+    let isConfirmed = 0;
 let interval;
 
+function getState() {
+  console.log("State was get");
+  const state = {
+    item_selector: {
+      items: [
+       quizData.data,
+       quizData.data.length,
+       quizData
+
+      ]
+    }
+  }
+  return state;
+}
+
+
+const init = () => {
+  return createSmartappDebugger({
+     token,
+  initPhrase,
+ getState
+  })
+  return createAssistant({getState});
+}
 const App = () => {
+   
+let assistant = init();
+
+assistant.on("data", (event) => {
+  console.log(event);
+  if (event.action) {
+    dispatchAction(event.action);
+  } 
+});
+  function dispatchAction(action) {
+    switch (action.type) {
+      case 'start_game':
+        if (step === 1) {
+          quizStartHandler();
+        }
+      break
+      case 'quiz':
+        if (step === 2) {
+          
+        }
+      break
+    }
+  }
+
   const [step, setStep] = useState(1);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
