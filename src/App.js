@@ -29,11 +29,11 @@ function getState() {
 
 
 const init = () => {
-  return createSmartappDebugger({
-     token,
-  initPhrase,
- getState
-  })
+ // return createSmartappDebugger({
+   //  token,
+ // initPhrase,
+ //getState
+  //})
   return createAssistant({getState});
 }
 const App = () => {
