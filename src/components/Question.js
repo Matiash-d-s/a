@@ -37,6 +37,7 @@ const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onS
   }
   
   function nextClickHandler  ()  {
+    console.log("hello")
     if(selected === '') {
       return setError('Пожалуйста выберите вариант ответа');
     }
