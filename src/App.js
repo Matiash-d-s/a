@@ -3,6 +3,7 @@ import './App.css';
 
 import Start from './components/Start';
 import Question from './components/Question';
+import nextClickHandler from './components/Question';
 import End from './components/End';
 import Modal from './components/Modal';
 import quizData from './data/quiz.json';
@@ -20,6 +21,7 @@ function getState() {
        quizData.data,
        quizData.data.length,
        quizData
+
 
       ]
     }
@@ -55,20 +57,25 @@ assistant.on("data", (event) => {
           quizStartHandler();
         }
       break
-      case 'modal':
+      case 'modali':
         if (step===3) {
-          setShowModal(true)
+          showM();
         }
       break
-      case 'restart':
+      case 'restart_game':
         if (step===3) {
-          resetClickHandler()
+          resetClickHandler();
+        }
+      break
+      case 'close_modal':
+        if (step===3) {
+          closeM();
         }
       break
     }
   }
 
-  const [step, setStep] = useState(1);
+  const[step, setStep] = useState(1);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -80,17 +87,32 @@ assistant.on("data", (event) => {
     }
   }, [step]);
 
-  const quizStartHandler = () => {
+function quizStartHandler()  {
     setStep(2);
     interval = setInterval(() => {
       setTime(prevTime => prevTime + 1);
     }, 1000);
   }
 
-  const resetClickHandler = () => {
+function showM(){
+  
+  setShowModal(true);
+  interval = setInterval(() => {
+    setTime(prevTime => prevTime + 1);
+  }, 1000);
+}
+function closeM(){
+  
+  setShowModal(false);
+  interval = setInterval(() => {
+    setTime(prevTime => prevTime + 1);
+  }, 1000);
+}
+
+  function resetClickHandler ()  {
+    setStep(1);
     setActiveQuestion(0);
     setAnswers([]);
-    setStep(2);
     setTime(0);
     interval = setInterval(() => {
       setTime(prevTime => prevTime + 1);

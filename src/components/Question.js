@@ -3,16 +3,24 @@ import {createAssistant} from '@sberdevices/assistant-client';
 import getState from '../App'
 
 
+
 const init = () => {
   return createAssistant({getState});
 }
 
 let assistant = init();
+
+
 const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onSetActiveQuestion, onSetStep }) => {
   const [selected, setSelected] = useState('');
   const [error, setError] = useState('');
   const radiosWrapper = useRef();
-
+  assistant.on("data", (event) => {
+    console.log(event);
+    if (event.action === 'quiza') {
+     nextClickHandler();
+    }
+  });
   useEffect(() => {
     const findCheckedInput = radiosWrapper.current.querySelector('input:checked');
     if(findCheckedInput) {
@@ -20,14 +28,15 @@ const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onS
     }
   }, [data]);
 
-  const changeHandler = (e) => {
+  function changeHandler (e)  {
+    console.log(e);
     setSelected(e.target.value);
     if(error) {
       setError('');
     }
   }
   
-  const nextClickHandler = (e) => {
+  function nextClickHandler  ()  {
     if(selected === '') {
       return setError('Пожалуйста выберите вариант ответа');
     }
@@ -39,13 +48,7 @@ const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onS
       onSetStep(3);
     }
   }
-  assistant.on("data", (event) => {
-    console.log(event);
-    if (event.type === 'quiz') {
-      changeHandler(data);
-      nextClickHandler(data);
-    }
-  });
+  
   return(
     <div className="card">
       <div className="card-content">
