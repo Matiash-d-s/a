@@ -1,27 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {createAssistant} from '@sberdevices/assistant-client';
+//import {createAssistant} from '@sberdevices/assistant-client';
 import getState from '../App'
 
 
 
-const init = () => {
-  return createAssistant({getState});
-}
+//const init = () => {
+//  return createAssistant({getState});
+//}
+//
+//let assistant = init();
 
-let assistant = init();
 
-
-const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onSetActiveQuestion, onSetStep }) => {
-  const [selected, setSelected] = useState('');
-  const [error, setError] = useState('');
+const Question = ({ data, /*onAnswerUpdate, numberOfQuestions, activeQuestion, onSetActiveQuestion, onSetStep,*/
+                  selected, setSelected, error, setError, nextClickHandler
+                  }) => {
+  //const [selected, setSelected] = useState('');
+  //const [error, setError] = useState('');
   const radiosWrapper = useRef();
-  assistant.on("data", (event) => {
-    console.log(event);
-    if (event.action === 'quiza') {
-     nextClickHandler();
-    }
-  });
+
+  //assistant.on("data", (event) => {
+  //  console.log("Question assistant.on(\"data\")", event);
+  //  if (event.action.type === 'quiza') {
+  //    nextClickHandler();
+  //  }
+  //});
+
   useEffect(() => {
+    console.log("Question useEffect");
     const findCheckedInput = radiosWrapper.current.querySelector('input:checked');
     if(findCheckedInput) {
       findCheckedInput.checked = false;
@@ -35,21 +40,21 @@ const Question = ({ data, onAnswerUpdate, numberOfQuestions, activeQuestion, onS
       setError('');
     }
   }
-  
-  function nextClickHandler  ()  {
-    console.log("hello")
-    if(selected === '') {
-      return setError('Пожалуйста выберите вариант ответа');
-    }
-    onAnswerUpdate(prevState => [...prevState, { q: data.question, a: selected }]);
-    setSelected('');
-    if(activeQuestion < numberOfQuestions - 1) {
-      onSetActiveQuestion(activeQuestion + 1);
-    }else {
-      onSetStep(3);
-    }
-  }
-  
+
+  //function nextClickHandler  ()  {
+  //  console.log("Question nextClickHandler()")
+  //  if(selected === '') {
+  //    return setError('Пожалуйста выберите вариант ответа');
+  //  }
+  //  onAnswerUpdate(prevState => [...prevState, { q: data.question, a: selected }]);
+  //  setSelected('');
+  //  if(activeQuestion < numberOfQuestions - 1) {
+  //    onSetActiveQuestion(activeQuestion + 1);
+  //  }else {
+  //    onSetStep(3);
+  //  }
+  //}
+
   return(
     <div className="card">
       <div className="card-content">

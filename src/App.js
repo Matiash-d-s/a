@@ -9,66 +9,74 @@ import Modal from './components/Modal';
 import quizData from './data/quiz.json';
 import {createSmartappDebugger, createAssistant,AssistantAppState} from '@sberdevices/assistant-client'
 let initPhrase = 'Запусти тест на знание столиц';
-let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYTJkZTI2ZDJjZGQ0MmRjN2Q0NmIxZjM3YzJjZmY5NzBhOTRmODQ0MmI0Mzk3MWQ5YjY5M2NhNTg4MjAwM2JiNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMzg2NzQ5MiwiaWF0IjoxNjIzNzgxMDgyLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiZTNjYTdjOTQtMTMzNy00Y2EwLWI5ZGQtOWRhYzhjNTM5YzUxIiwic2lkIjoiNWNkZDcwOTYtZmI1Ni00ZWE0LTk1NjAtMjg4NDVjZTc2ZmVmIn0.YEWhiGrFW5nyQui8vzjiyvfe2G7p8ClebjIYvKdfIIy05DioKb_tVYDIwr7OjBJjOqFXMpYZp8P-oQwqj82lYYzhop-TFRsGI9CCb2EfEDVMKwbXERMD9ppgD_j_kjEjuvkyzBM4xpM5dBFMRuSgE5DNLiqTNAfZm6iiEpJpcB9VM3PnP1JGTuPHZEf3akUcd7fGxdxIfj0G5yDnqgScjeG7B3P7rfqeSqAungMq2wdG2JAruYJqcLwCYsEuSyOzLxir9qBw_RNTKjSxIKbJ_BFQ6tO8u8MFAj56mWho5wAxhPnSa4s_eUNyt4ZCX9w-ZTkHkFefrxn_8zEHNqQC9fHDIYdjzUfi3JI_QuitaKA8IZP4nL9FR0wxEieNhugh8YbCJCo74nwJ3kt9FWQENLrHNpn5pTIIhpoPfMGZjhdulqTl_wWsBLenSOeWwDeh7TgTmqmhdbv2wlYyK3Pc2ahiFem3yIwOdRCO9aDk93EmfU5RfPTPZ48zoLjMDlp3DLUHAWaZItLFTl6UsK8mOMNXvk9DPR7oZzFo3cuHQDnScY3osC-9sVeQ_VLlNEBETtc-nIh1PurCcMTwvTZcioKk5p_77qBQCkmH6Nwuhr7nYkxAnCE6U1eHgcxesqv0aJWJ9YHo1Rj7iISz9DVRgblD5vDYND6dwAx2-WLMgD0'
-    let isConfirmed = 0;
+let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYTJkZTI2ZDJjZGQ0MmRjN2Q0NmIxZjM3YzJjZmY5NzBhOTRmODQ0MmI0Mzk3MWQ5YjY5M2NhNTg4MjAwM2JiNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMzk2MjQ1OCwiaWF0IjoxNjIzODc2MDQ4LCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiYTFiMjYxM2QtM2NkMC00Mjg1LTg3YjAtN2VmNjA5NWU2Mjg3Iiwic2lkIjoiNzEyZGQyODgtZTFmNi00YjNhLWFmNmMtMThkNjM2ZWU4YjFhIn0.kojXQQ3G20Lod1buvnsw4s4Np0kw07BHzBzUqxDygVlm_BqLocZtrbQcp7lq825GX5LuP1QDOY6uU0VAP_IRCrwacIHnvc1WAGWlLbKfrMck7_9PH7apHT9PEkXzOAoYsTRnP_46aUOvVejq4M-yEkfRenGEoUoHlDXOUhI0ilTFuoq5E3pth20DYELxSDr1dYs7a2vIKBhNHvffd7YTTNBerN9cCZ1qTcJ6ROKrA2L5GONHIrdlSqi1-agQdsXp23sX-VRjCBsxJEcjB0Qb_8ziqvFck1w6nQFTQEfyIUHmR8MykU1FJxLHTa4mla8PyCFQMlSU_P3d39IHLbnEBXqfym9FAp4j5IU086G00bdHQtHbvBPoqaHbJSvogQxbEqC9dR5t4oyLO7kMqe6lEN4eZSm3F5MwqkdBcs0FJxVjIBcMgavEt-JjoniEr9R5lZwdag_IfapBUuDIQE6yvmUuNq5OaPqBqKePiiahq2G2-rd3jI6z6KCKWVjzQJ-3KnCJTxdrWaeIGVs3cOeg3V1xpmjtkjOUl356iNUPCT9r1Dn7ctfjay568-yASor2A1FI-5jUICipxbV7ThHoRJjrVXtrHl8ZhPIq5ZY14rJ3aRAXrNCLoGrcmuSHTcBkU6LAcXNqiTvoK9UEKdfl4BMlrCZmxRO7qM_KJQjx2zU'
+let isConfirmed = 0;
 let interval;
+
 const init = () => {
-    return createSmartappDebugger({
-        token,
-     initPhrase,
-     getState
-      })
-      return createAssistant({getState});
-      
+  return createSmartappDebugger({
+    token,
+    initPhrase,
+    getState
+  })
+  return createAssistant({getState});
+
+}
+let assistant = init();
+
+function getState() {
+  console.log("State was get");
+  const state = {
+    item_selector: {
+      items: [
+        quizData.data,
+        quizData.data.length,
+        quizData,
+        Question
+      ]
     }
-    let assistant = init();
-  function getState() {
-    console.log("State was get");
-    const state = {
-      item_selector: {
-        items: [
-         quizData.data,
-         quizData.data.length,
-         quizData,
-         Question
-        ]
-      }
-    }
-    return state;
   }
+  return state;
+}
 
 const App = () => {
+  console.log("App");
 
-  
+  assistant.on("data", (event) => {
+    console.log("App assistant.on(\"data\")", event);
+    if (event.action) {
+      dispatchAction(event.action);
+    }
+  });
 
-assistant.on("data", (event) => {
-  console.log(event);
-  if (event.action) {
-    dispatchAction(event.action);
-  } 
-});
   function dispatchAction(action) {
+    console.log("App dispatchAction", action);
     switch (action.type) {
       case 'start_game':
         if (step === 1) {
           quizStartHandler();
         }
-      break
+        break
       case 'modali':
         if (step===3) {
           showM();
         }
-      break
+        break
       case 'restart_game':
         if (step===3) {
           resetClickHandler();
         }
-      break
+        break
       case 'close_modal':
         if (step===3) {
           closeM();
         }
-      break
+        break
+      case 'quiza':
+        nextClickHandler();
+        break
+      default:
+        console.warn('Unknown event.action.type', action.type)
     }
   }
 
@@ -78,35 +86,44 @@ assistant.on("data", (event) => {
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState(0);
 
+  // from Question
+  const [selected, setSelected] = useState('');
+  const [error, setError] = useState('');
+  //
+
   useEffect(() => {
+    console.log("App useEffect [step]");
     if(step === 3) {
       clearInterval(interval);
     }
   }, [step]);
 
-function quizStartHandler()  {
+  function quizStartHandler()  {
+    console.log("App quizStartHandler");
     setStep(2);
     interval = setInterval(() => {
       setTime(prevTime => prevTime + 1);
     }, 1000);
   }
 
-function showM(){
-  
-  setShowModal(true);
-  interval = setInterval(() => {
-    setTime(prevTime => prevTime + 1);
-  }, 1000);
-}
-function closeM(){
-  
-  setShowModal(false);
-  interval = setInterval(() => {
-    setTime(prevTime => prevTime + 1);
-  }, 1000);
-}
+  function showM(){
+    console.log("App showM");
+    setShowModal(true);
+    interval = setInterval(() => {
+      setTime(prevTime => prevTime + 1);
+    }, 1000);
+  }
+
+  function closeM(){
+    console.log("App closeM");
+    setShowModal(false);
+    interval = setInterval(() => {
+      setTime(prevTime => prevTime + 1);
+    }, 1000);
+  }
 
   function resetClickHandler ()  {
+    console.log("App resetClickHandler");
     setStep(1);
     setActiveQuestion(0);
     setAnswers([]);
@@ -116,18 +133,43 @@ function closeM(){
     }, 1000);
   }
 
+  function nextClickHandler  ()  {
+    console.log("Question nextClickHandler()")
+    if(selected === '') {
+      return setError('Пожалуйста выберите вариант ответа');
+    }
+    //onAnswerUpdate(prevState => [...prevState, { q: data.question, a: selected }]);
+    const data = quizData.data[activeQuestion];
+    setAnswers(prevState => [...prevState, { q: data.question, a: selected }]);
+    setSelected('');
+    //if(activeQuestion < numberOfQuestions - 1) {
+    if(activeQuestion < quizData.data.length - 1) {
+      //onSetActiveQuestion(activeQuestion + 1);
+      setActiveQuestion(activeQuestion + 1);
+    }else {
+      //onSetStep(3);
+      setStep(3);
+    }
+  }
+
   return (
     <div className="App">
       {step === 1 && <Start onQuizStart={quizStartHandler} />}
-      {step === 2 && <Question 
+      {step === 2 && <Question
         data={quizData.data[activeQuestion]}
-        onAnswerUpdate={setAnswers}
-        numberOfQuestions={quizData.data.length}
+        //onAnswerUpdate={setAnswers}
+        //numberOfQuestions={quizData.data.length}
         activeQuestion={activeQuestion}
-        onSetActiveQuestion={setActiveQuestion}
-        onSetStep={setStep}
+        //onSetActiveQuestion={setActiveQuestion}
+        //onSetStep={setStep}
+        //
+        selected={selected}
+        setSelected={setSelected}
+        error={error}
+        setError={setError}
+        nextClickHandler={nextClickHandler}
       />}
-      {step === 3 && <End 
+      {step === 3 && <End
         results={answers}
         data={quizData.data}
         onReset={resetClickHandler}
@@ -135,7 +177,7 @@ function closeM(){
         time={time}
       />}
 
-      {showModal && <Modal 
+      {showModal && <Modal
         onClose={() => setShowModal(false)}
         results={answers}
         data={quizData.data}
